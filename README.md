@@ -117,11 +117,12 @@ set interfaces wireguard wg0 route-allowed-ips true
 set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= endpoint example1.org:29922
 set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= allowed-ips 192.168.33.101/32
 
-# Example: Create remote peer 2
+# Example: Create remote peer 2 using optional pre-shared key in /config/auth/peer2.psk
+# Pre-Shared Key (psk) could be generated with wg genpsk | tee /etc/auth/peer2.psk
 set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= endpoint example2.net:51820
 set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.102/32
 set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.103/32
-
+set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= preshared-key=/config/auth/peer2.psk
 commit
 save
 exit
