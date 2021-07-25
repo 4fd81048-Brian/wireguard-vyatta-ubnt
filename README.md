@@ -99,23 +99,28 @@ wg genkey | tee /config/auth/wg.key | wg pubkey >  wg.public
 
 configure
 
-set interfaces wireguard wg0 address 192.168.33.1/24
-set interfaces wireguard wg0 listen-port 51820
-set interfaces wireguard wg0 route-allowed-ips true
-
-set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= endpoint example1.org:29922
-set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= allowed-ips 192.168.33.101/32
-
-set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= endpoint example2.net:51820
-set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.102/32
-set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.103/32
-
+# Set the private Key
 set interfaces wireguard wg0 private-key /config/auth/wg.key
 
+# Add Firewall rule for example listening server
 set firewall name WAN_LOCAL rule 20 action accept
 set firewall name WAN_LOCAL rule 20 protocol udp
 set firewall name WAN_LOCAL rule 20 description 'WireGuard'
 set firewall name WAN_LOCAL rule 20 destination port 51820
+
+# Example: Start listening server
+set interfaces wireguard wg0 address 192.168.33.1/24
+set interfaces wireguard wg0 listen-port 51820
+set interfaces wireguard wg0 route-allowed-ips true
+
+# Example: Create remote peer 1 listening for connections on 29922
+set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= endpoint example1.org:29922
+set interfaces wireguard wg0 peer GIPWDet2eswjz1JphYFb51sh6I+CwvzOoVyD7z7kZVc= allowed-ips 192.168.33.101/32
+
+# Example: Create remote peer 2
+set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= endpoint example2.net:51820
+set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.102/32
+set interfaces wireguard wg0 peer aBaxDzgsyDk58eax6lt3CLedDt6SlVHnDxLG2K5UdV4= allowed-ips 192.168.33.103/32
 
 commit
 save
